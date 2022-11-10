@@ -1,17 +1,24 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
-import Navbar from './Navbar'
+import SharedPage from './SharedPage'
+import Main from './Main'
+import Login from './Login'
+import Register from './Register'
+import Error from './Error'
 
 function App() {
   return (
     <div className='App'>
-      <Navbar />
-      <div className='container'>
-        <article>
-          <h1>What is Lorem Ipsum? </h1>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry...
-        </article>
-      </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<SharedPage />}>
+            <Route index element={<Main />} />
+            <Route path='register' element={<Register />} />
+            <Route path='signin' element={<Login />} />
+            <Route path='*' element={<Error />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   )
 }

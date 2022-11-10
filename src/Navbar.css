@@ -1,0 +1,128 @@
+.navigation {
+  min-height: 85px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 0.5rem 0rem;
+  background-color: #fff;
+  color: black;
+  box-shadow: 0 2px 2px 2px #b5b6b9;
+}
+
+.brand-name {
+  text-decoration: none;
+  color: hsl(18, 87%, 54%);
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-left: 1rem;
+}
+.navigation-menu {
+  margin-left: auto;
+}
+
+.navigation-menu ul {
+  display: flex;
+  padding: 0;
+}
+
+.navigation-menu li {
+  /* //removes default disc bullet for li tags and applies margin to left & right side */
+  list-style-type: none;
+  margin: 0 1rem;
+}
+
+.navigation-menu li.active {
+  padding: 0 1em;
+  background-color: rgb(240, 98, 37);
+}
+
+.navigation-menu a {
+  /* // increases the surface area of the anchor tag to span more than just the anchor text */
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.navigation-menu a::after {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 0%;
+  content: '';
+  color: transparent;
+  background: #333;
+  background-color: hsl(18, 87%, 54%);
+  height: 3px;
+  transition: all 0.5s;
+}
+
+.navigation-menu a:hover:after {
+  width: 100%;
+}
+
+@media screen and (max-width: 668px) {
+  .navigation-menu ul {
+    /* // navigation menu is positioned to start 60px from the top of the document (which is directly below the navbar) */
+    position: absolute;
+    top: 85px;
+    left: -40em;
+    /* // stacks the li tags vertically  */
+    flex-direction: column;
+    /* // makes menu span full height and width */
+    width: 40%;
+    height: 100vh;
+    background-color: #b5b6b9;
+    display: block;
+    overflow: hidden;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .expanded ul {
+    left: 0;
+  }
+
+  .navigation-menu li {
+    /* // centers link text and strips off margin */
+    text-align: center;
+    margin: 0;
+  }
+
+  .navigation-menu a {
+    color: black;
+    /* // increases the surface area of the anchor tag to span the full width of the menu */
+    width: 100%;
+    padding: 1.5rem 0;
+  }
+}
+
+.hamburger {
+  /* // removes default border on button element */
+  border: 0;
+  margin: 0;
+  height: 40px;
+  width: 40px;
+  padding: 0.5rem;
+  background-color: hsl(18, 87%, 54%);
+  cursor: pointer;
+  transition: background-color 0.5s ease-in-out;
+  /* // positions the icon to the right and center aligns it vertically */
+  position: absolute;
+  top: 50%;
+  right: 25px;
+  transform: translateY(-50%);
+  display: none;
+}
+
+@media screen and (max-width: 668px) {
+  .hamburger {
+    display: block;
+  }
+}
+.hamburger:hover {
+  background-color: hsl(18, 87%, 40%);
+}
