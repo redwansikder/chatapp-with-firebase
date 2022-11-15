@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -6,13 +6,13 @@ import {
   faTimes,
   faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons'
-import axios from './api/axios'
+import AuthContext from './context/AuthProvider'
 
-const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
+const USER_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/
-const REGISTER_URL = '/register____'
 
 const Register = () => {
+  const { createUserWithEmailAndPassword } = useContext(AuthContext)
   const userRef = useRef()
   const errRef = useRef()
 
@@ -61,15 +61,7 @@ const Register = () => {
     }
     try {
       console.log(name, pwd)
-      const response = await axios.post(
-        REGISTER_URL,
-        JSON.stringify({ name, pwd }),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-        }
-      )
-      console.log(JSON.stringify(response))
+      createUserWithEmailAndPassword(name, pwd)
       setSuccess(true)
     } catch (error) {
       if (!error?.response) {
@@ -88,6 +80,7 @@ const Register = () => {
       {success ? (
         <section>
           <h1>Success!</h1>
+          <Link to='/'>Home</Link>
         </section>
       ) : (
         <section>
@@ -126,11 +119,7 @@ const Register = () => {
               className={nameFocus && !validName ? 'instructions' : 'offscreen'}
             >
               <FontAwesomeIcon icon={faInfoCircle} />
-              4 to 24 characters.
-              <br />
-              Must begin with a letter.
-              <br />
-              Letters, numbers, underscores, hyphens allowed.
+              Enter a valid email.
             </p>
 
             <label htmlFor='password'>

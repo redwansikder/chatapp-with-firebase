@@ -2,12 +2,13 @@ section {
   margin: 0 auto;
   width: 100%;
   max-width: 420px;
-  min-height: 400px;
+
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   padding: 1rem;
   background-color: rgba(55, 182, 133, 0.4);
+  /* overflow: hidden; */
 }
 
 form {

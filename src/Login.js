@@ -1,23 +1,21 @@
 import React, { useRef, useState, useEffect, useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import AuthContext from './context/AuthProvider'
-import axios from './api/axios'
 
-const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
+const USER_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/
-const LOGIN_URL = '/signin____'
 
 const Login = () => {
-  const { setAuth } = useContext(AuthContext)
+  const { signInWithEmailAndPassword } = useContext(AuthContext)
+  const navigate = useNavigate()
+
   const userRef = useRef()
   const errRef = useRef()
 
   const [name, setName] = useState('')
   const [pwd, setPwd] = useState('')
   const [errMsg, setErrMsg] = useState('')
-
-  const [success, setSuccess] = useState(false)
 
   useEffect(() => {
     userRef.current.focus()
@@ -37,19 +35,8 @@ const Login = () => {
     }
     try {
       console.log(name, pwd)
-      const response = await axios.post(
-        LOGIN_URL,
-        JSON.stringify({ name, pwd }),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true,
-        }
-      )
-      console.log(JSON.stringify(response))
-      const accessToken = response?.data?.accessToken
-      const roles = response?.data?.roles
-      setAuth({ name, pwd, roles, accessToken })
-      setSuccess(true)
+      signInWithEmailAndPassword(name, pwd)
+      navigate('/')
     } catch (error) {
       if (!error?.response) {
         setErrMsg('No server response         ')
