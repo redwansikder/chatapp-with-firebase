@@ -7,6 +7,7 @@ import {
   query,
   getDocs,
   orderBy,
+  onSnapshot,
 } from 'firebase/firestore'
 
 import { app, allAuth, db } from '../firebase/firebase'
@@ -29,16 +30,19 @@ export const AuthProvider = ({ children }) => {
     })
   }
 
-  const getAllMsg = async () => {
-    const arr = []
-    const q = query(collection(db, 'chat'), orderBy('timestamp'))
-    const querySnap = await getDocs(q)
-    querySnap.forEach((d) => arr.push(d.data()))
-    setPosts(arr)
-  }
-
   useEffect(() => {
-    getAllMsg()
+    const unsub = onSnapshot(collection(db, 'chat'), (snap) => {
+      const arr = []
+      snap.docs.forEach((doc) => arr.push(doc.data()))
+      const arr2 = arr.sort(function (a, b) {
+        return a.timestamp?.seconds - b.timestamp?.seconds
+      })
+      setPosts(arr2)
+    })
+
+    return () => {
+      unsub()
+    }
   }, [])
 
   const createUserWithEmailAndPassword = (email, password) => {
@@ -107,7 +111,7 @@ export const AuthProvider = ({ children }) => {
         posts,
         setPosts,
         createMsg,
-        getAllMsg,
+        // getAllMsg,
       }}
     >
       {children}

@@ -13,8 +13,8 @@ const Login = () => {
   const userRef = useRef()
   const errRef = useRef()
 
-  const [name, setName] = useState('')
-  const [pwd, setPwd] = useState('')
+  const [name, setName] = useState(() => 'mail@mail2.com')
+  const [pwd, setPwd] = useState(() => '@QWE2qwe')
   const [errMsg, setErrMsg] = useState('')
 
   useEffect(() => {

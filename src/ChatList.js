@@ -3,8 +3,8 @@ import React, { useContext } from 'react'
 import AuthContext from './context/AuthProvider'
 
 function ChatList() {
-  const { auth, post, setPost, posts, createMsg, getAllMsg } =
-    useContext(AuthContext)
+  // const { auth, post, setPost, posts, createMsg, getAllMsg } =
+  const { auth, post, setPost, posts, createMsg } = useContext(AuthContext)
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -13,7 +13,7 @@ function ChatList() {
     }
     createMsg(post)
     setPost({ writer: '', msg: '' })
-    getAllMsg()
+    // getAllMsg()
   }
 
   return (
